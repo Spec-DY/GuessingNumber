@@ -12,16 +12,16 @@ const ConfirmScreen = ({ visible, name, email, phone, isCheckboxChecked, onConfi
         transparent={true} 
         animationType="slide">
       <LinearGradient
-        colors={[color.gradientColor, 'rgba(0,0,0,0)']}
+        colors={[color.gradientColor, color.transparentColor]}
         style={styles.gradientBackground}>
         <Card>
           <Text style={styles.title}>Hello {name}</Text>
-              <Text style={styles.text}>You Entered:</Text>
+              <Text style={styles.text}>Your Info:</Text>
               <Text style={styles.text}>Email Address: {email}</Text>
               <Text style={styles.text}>Phone Number: {phone}</Text>
               <Text style={styles.text}>Privacy Terms Accepted: {isCheckboxChecked ? 'Yes' : 'No'}</Text>
               <Text style={styles.text}>
-                  Please click Go Back if incorrect
+                  Click Continue if it's correct
               </Text>
 
               <View style={styles.buttonContainer}>

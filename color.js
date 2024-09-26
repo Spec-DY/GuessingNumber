@@ -4,6 +4,7 @@ export default {
     UIText: '#696969',
     inputText: 'black',
     shadowColor:'#ffa07a',
-    gradientColor:'#e6e6fa'
+    gradientColor:'#e6e6fa',
+    transparentColor:'rgba(0,0,0,0)'
   };
   
