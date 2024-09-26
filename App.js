@@ -1,35 +1,65 @@
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import { View,Text,StyleSheet, SafeAreaView } from 'react-native';
 import SmartScreen from './screens/SmartScreen';
+import ConfirmScreen from './screens/ConfirmScreen';
+import color from './color';
+
 
 const App = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
+  const [isConfirmVisible, setIsConfirmVisible] = useState(false);
+
   const [currentScreen, setCurrentScreen] = useState('start'); // start, confirm, game
 
-  const handleRegister = () => {
-    setCurrentScreen('confirm');
+  const handleRegister = (name, email, phone, isChecked) => {
+    setName(name);
+    setEmail(email);
+    setPhone(phone);
+    setIsCheckboxChecked(isChecked);
+    setIsConfirmVisible(true);
   };
 
   const handleConfirm = () => {
+    setIsConfirmVisible(false);
     setCurrentScreen('game');
   };
 
-  const handleReset = () => {
-    setCurrentScreen('start');
+  const handleGoBack = () => {
+    setIsConfirmVisible(false)
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <>
       {currentScreen === 'start' && (
-        <SmartScreen onRegister={handleRegister} />
+        <SmartScreen
+          onRegister={handleRegister}
+          name={name}
+          email={email}
+          phone={phone}
+          isCheckboxChecked={isCheckboxChecked}
+        />
       )}
-      {/* {currentScreen === 'confirm' && (
-        <ConfirmScreen onConfirm={handleConfirm} onReset={handleReset} />
-      )}
-      {currentScreen === 'game' && (
-        <GameScreen onReset={handleReset} />
-      )} */}
-    </View>
+
+      <ConfirmScreen
+        visible={isConfirmVisible}
+        name={name}
+        email={email}
+        phone={phone}
+        isCheckboxChecked={isCheckboxChecked}
+        onGoBack={handleGoBack}
+        onConfirm={handleConfirm}
+      />
+    </>
   );
 };
+const styles=StyleSheet.create({
+  container:{
+    flex:1
+  }
+
+})
 
 export default App;
