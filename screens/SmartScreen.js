@@ -91,6 +91,7 @@ const StartScreen = ({ onRegister }) => {
         <ErrorText errorMessage={phoneError} />
 
         <BouncyCheckbox
+          isChecked={isCheckboxChecked}
           onPress={(isChecked) => setIsCheckboxChecked(isChecked)}
           fillColor="blue"
           text="I agree to privacy terms"
