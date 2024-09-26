@@ -1,6 +1,6 @@
 import React from 'react';
 import { TextInput, StyleSheet } from 'react-native';
-import color from './color';
+import color from '../color';
 
 const InputField = ({ placeholder, value, onChangeText, keyboardType = 'default', maxLength }) => {
   return (
