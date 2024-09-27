@@ -25,7 +25,7 @@ const GameScreen = ({ phone, chosenNumber, onRestart }) => {
   const startGame = () => {
     setIsGameStarted(true);
     setAttempts(4);
-    setTimeRemaining(99999999);
+    setTimeRemaining(60);
     setGuessResult('');
     setIsGameOver(false);
     setGameOverReason('');
@@ -42,6 +42,7 @@ const GameScreen = ({ phone, chosenNumber, onRestart }) => {
 
     if (guess === chosenNumber) {
         setGuessResult('correct');
+        setAttempts((prev) => prev - 1);
       } else if (guess < chosenNumber) {
         setGuessResult('higher');
         setAttempts((prev) => prev - 1);
@@ -52,7 +53,7 @@ const GameScreen = ({ phone, chosenNumber, onRestart }) => {
 
     if (attempts - 1 === 0) {
         setIsGameOver(true);
-        setGameOverReason('attempts'); // Set the reason for game over
+        setGameOverReason('attempts'); // gameover out of attempts
     }
   };
 
@@ -65,7 +66,7 @@ const GameScreen = ({ phone, chosenNumber, onRestart }) => {
     onRestart();
   };
 
-  // End the game
+  // manual end game
   const handleEndGame = () => {
     setGameOverReason('');
     setIsGameOver(true);
