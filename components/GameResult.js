@@ -30,7 +30,8 @@ const GameResult = ({ attemptsUsed, chosenNumber, onNewGame, isGameOver, gameOve
         ) : (
             // Success Layout
             <View style={styles.resultContainer}>
-            <Text style={styles.instructions}>Congratulations! You guessed the number in {attemptsUsed} attempts!</Text>
+            <Text style={styles.instructions}>
+                Congratulations! You guessed the number in {attemptsUsed} attempts!</Text>
             <Image
                 source={{ uri: `https://picsum.photos/id/${chosenNumber}/100/100` }}
                 style={styles.image}

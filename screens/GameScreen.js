@@ -25,7 +25,7 @@ const GameScreen = ({ phone, chosenNumber, onRestart }) => {
   const startGame = () => {
     setIsGameStarted(true);
     setAttempts(4);
-    setTimeRemaining(60);
+    setTimeRemaining(99999);
     setGuessResult('');
     setIsGameOver(false);
     setGameOverReason('');
