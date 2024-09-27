@@ -13,7 +13,6 @@ const App = () => {
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
   const [isConfirmVisible, setIsConfirmVisible] = useState(false);
   const [chosenNumber, setChosenNumber] = useState(null);
-
   const [currentScreen, setCurrentScreen] = useState('start'); // start, game
 
   const handleRegister = (name, email, phone, isChecked) => {

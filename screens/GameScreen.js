@@ -3,6 +3,8 @@ import { View, Text, TextInput, Button, StyleSheet, Alert, SafeAreaView } from '
 import Card from '../components/Card';
 import color from '../color';
 import CustomButton from '../components/CustomButton';
+import GuessResult from '../components/GuessResult';
+import GameResult from '../components/GameResult';
 
 const GameScreen = ({ phone, chosenNumber, onRestart }) => {
   const [enteredGuess, setEnteredGuess] = useState('');
@@ -10,36 +12,63 @@ const GameScreen = ({ phone, chosenNumber, onRestart }) => {
   const [timeRemaining, setTimeRemaining] = useState(60);
   const [isGameStarted, setIsGameStarted] = useState(false);
 
+  const [isGameOver, setIsGameOver] = useState(false)
+  const [guessResult, setGuessResult] = useState(''); // higher, lower, correct
+  const [gameOverReason, setGameOverReason] = useState('');  // either timer or attempts
+
   useEffect(() => {
     console.log({ chosenNumber });
   }, [chosenNumber]);
 
+
+  // start rules
   const startGame = () => {
     setIsGameStarted(true);
     setAttempts(4);
     setTimeRemaining(99999999);
+    setGuessResult('');
+    setIsGameOver(false);
+    setGameOverReason('');
   };
 
   const handleGuess = () => {
     if (!enteredGuess) {
-      Alert.alert('Invalid Input', 'Please enter a number.');
-      return;
+        // empty
+        Alert.alert('Invalid Input', 'Please enter a number.');
+        return;
     }
 
     const guess = parseInt(enteredGuess);
 
     if (guess === chosenNumber) {
-      Alert.alert('Congratulations!', 'You guessed the correct number!');
-      onRestart();  // correct
-    } else {
-      setAttempts((prev) => prev - 1);
-      if (attempts - 1 === 0) {
-        Alert.alert('Game Over', 'You have no more attempts left.');
-        onRestart();  // wrong
+        setGuessResult('correct');
+      } else if (guess < chosenNumber) {
+        setGuessResult('higher');
+        setAttempts((prev) => prev - 1);
       } else {
-        Alert.alert('Wrong Guess', `You have ${attempts - 1} attempts left.`);
+        setGuessResult('lower');
+        setAttempts((prev) => prev - 1);
       }
+
+    if (attempts - 1 === 0) {
+        setIsGameOver(true);
+        setGameOverReason('attempts'); // Set the reason for game over
     }
+  };
+
+  const handleTryAgain = () => {
+    setGuessResult('');
+    setEnteredGuess('');
+  };
+
+  const handleNewGame = () => {
+    onRestart();
+  };
+
+  // End the game
+  const handleEndGame = () => {
+    setGameOverReason('');
+    setIsGameOver(true);
   };
 
   // count down
@@ -50,20 +79,46 @@ const GameScreen = ({ phone, chosenNumber, onRestart }) => {
       }, 1000);
       return () => clearTimeout(timer);
     } else if (timeRemaining === 0) {
-      Alert.alert('Time Up!', 'You ran out of time.');
-      onRestart();
+      setIsGameOver(true);
+      setGameOverReason('timer');
     }
   }, [isGameStarted, timeRemaining]);
+
+
 
   return (
     <SafeAreaView style={styles.container}>
       {!isGameStarted ? (
         <Card>
           <Text style={styles.instructions}>
-            You have 60 seconds and 4 attempts to guess a number that is a multiple of {phone[phone.length - 1]} between 1 and 100.
+            You have 60 seconds and 4 attempts to guess a number that is a multiply of {phone[phone.length - 1]} between 1 and 100.
           </Text>
           <CustomButton title="Start" onPress={startGame} />
         </Card>
+        // game over
+      ) : isGameOver ? (
+        <GameResult
+          attemptsUsed={4 - attempts} // Calculate attempts used directly
+          chosenNumber={chosenNumber}
+          onNewGame={handleNewGame}
+          isGameOver={isGameOver}
+          gameOverReason={gameOverReason} // Pass the reason for game over
+        />
+        // guessed corrected and game finish
+      ) : guessResult === 'correct' ? (
+        <GameResult
+          attemptsUsed={4 - attempts}
+          chosenNumber={chosenNumber}
+          onNewGame={handleNewGame}
+          isGameOver={false}
+        />
+        // render while game not over yet
+      ) : guessResult ? (
+        <GuessResult
+          guessResult={guessResult}
+          onTryAgain={handleTryAgain}
+          onEndGame={handleEndGame}
+        />
       ) : (
         <View>
             <View style={styles.restartButton}>
