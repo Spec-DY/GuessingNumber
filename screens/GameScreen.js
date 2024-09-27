@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert, SafeAreaView } from 'react-native';
 import Card from '../components/Card';
 import color from '../color';
+import CustomButton from '../components/CustomButton';
 
 const GameScreen = ({ phone, chosenNumber, onRestart }) => {
   const [enteredGuess, setEnteredGuess] = useState('');
@@ -16,7 +17,7 @@ const GameScreen = ({ phone, chosenNumber, onRestart }) => {
   const startGame = () => {
     setIsGameStarted(true);
     setAttempts(4);
-    setTimeRemaining(60);
+    setTimeRemaining(99999999);
   };
 
   const handleGuess = () => {
@@ -61,28 +62,29 @@ const GameScreen = ({ phone, chosenNumber, onRestart }) => {
           <Text style={styles.instructions}>
             You have 60 seconds and 4 attempts to guess a number that is a multiple of {phone[phone.length - 1]} between 1 and 100.
           </Text>
-          <Button title="Start" onPress={startGame} />
+          <CustomButton title="Start" onPress={startGame} />
         </Card>
       ) : (
-        <>
-          <View style={styles.header}>
-            <Text style={styles.timer}>Time remaining: {timeRemaining} seconds</Text>
-            <Text style={styles.attempts}>Attempts left: {attempts}</Text>
-            <Button title="Restart" onPress={onRestart} color="red" />
-          </View>
-          
-          <Card>
-            <Text>Enter your guess:</Text>
-            <TextInput
-              style={styles.input}
-              value={enteredGuess}
-              onChangeText={setEnteredGuess}
-              keyboardType="numeric"
-              placeholder="Enter a number"
-            />
-            <Button title="Submit Guess" onPress={handleGuess} />
-          </Card>
-        </>
+        <View>
+            <View style={styles.restartButton}>
+                <Button title="Restart" onPress={onRestart} color="red" />
+            </View>
+            <Card>
+                <View style={styles.header}>
+                    <Text style={styles.timer}>Time remaining: {timeRemaining} seconds</Text>
+                    <Text style={styles.attempts}>Attempts left: {attempts}</Text>
+                </View>
+                <Text style={styles.label}>Guess a number between 1 to 100 that is multiply of {phone[phone.length - 1]}</Text>
+                <TextInput
+                style={styles.input}
+                value={enteredGuess}
+                onChangeText={setEnteredGuess}
+                keyboardType="numeric"
+                placeholder="Enter a number"
+                />
+                <CustomButton title="Submit Guess" onPress={handleGuess} />
+            </Card>
+        </View>
       )}
     </SafeAreaView>
   );
@@ -98,21 +100,22 @@ const styles = StyleSheet.create({
   header: {
     width: '100%',
     flexDirection: 'column',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    marginBottom: 20,
+    marginBottom: 20
   },
   instructions: {
     fontSize: 18,
     marginBottom: 20,
   },
   timer: {
-    fontSize: 18,
+    fontSize: 14,
     color: 'red',
   },
   attempts: {
-    fontSize: 18,
+    fontSize: 14,
     color: 'red',
+  },
+  label:{
+    textAlign: 'center'
   },
   input: {
     borderBottomColor: 'black',
@@ -121,8 +124,13 @@ const styles = StyleSheet.create({
     padding: 5,
     fontSize: 18,
     width: 150,
-    textAlign: 'center',
+    alignSelf:'center'
   },
+  restartButton:{
+    alignSelf:'flex-end',
+    paddingRight:20,
+    paddingBottom:10
+  }
 });
 
 export default GameScreen;
