@@ -32,13 +32,19 @@ const GameScreen = ({ phone, chosenNumber, onRestart }) => {
   };
 
   const handleGuess = () => {
+    // empty
     if (!enteredGuess) {
-        // empty
         Alert.alert('Invalid Input', 'Please enter a number.');
         return;
+      }
+    
+    const guess = parseFloat(enteredGuess);
+    
+    // decimal
+    if (!Number.isInteger(guess)) {
+        Alert.alert('Invalid Input', 'Please enter a valid integer.');
+        return;
     }
-
-    const guess = parseInt(enteredGuess);
 
     if (guess === chosenNumber) {
         setGuessResult('correct');
@@ -143,9 +149,9 @@ const GameScreen = ({ phone, chosenNumber, onRestart }) => {
                 keyboardType="numeric"
                 placeholder="Enter a number"
                 />
-                <View style={{flexDirection:'column', alignItems:'center', padding:10}}>
+                <View style={{flexDirection:'row', justifyContent:'space-evenly', padding:10}}>
                     <CustomButton title="hint" onPress={handleHint} />
-                    <View style={{margin:10}}></View>
+                    <View style={{margin:20}}></View>
                     <CustomButton title="Submit Guess" onPress={handleGuess} />
                 </View>
             </Card>

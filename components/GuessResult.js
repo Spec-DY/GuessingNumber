@@ -8,9 +8,9 @@ const GuessResult = ({ guessResult, onTryAgain, onEndGame }) => {
     <Card>
       <Text style={styles.instructions}>Your should guess {guessResult}. Try again!</Text>
       <View style={{flexDirection:'row', justifyContent:'space-evenly'}}>
-        <CustomButton title="Try Again" onPress={onTryAgain} />
-        <View style={{margin:20}}></View>
         <CustomButton title="End Game" onPress={onEndGame} />
+        <View style={{margin:20}}></View>
+        <CustomButton title="Try Again" onPress={onTryAgain} />
       </View>
     </Card>
   );
