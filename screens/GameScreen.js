@@ -25,7 +25,7 @@ const GameScreen = ({ phone, chosenNumber, onRestart }) => {
   const startGame = () => {
     setIsGameStarted(true);
     setAttempts(4);
-    setTimeRemaining(99999);
+    setTimeRemaining(60);
     setGuessResult('');
     setIsGameOver(false);
     setGameOverReason('');
@@ -71,6 +71,11 @@ const GameScreen = ({ phone, chosenNumber, onRestart }) => {
     setGameOverReason('');
     setIsGameOver(true);
   };
+
+  const handleHint =()=> {
+    Alert.alert("Hint", "Correct Answer is:" + chosenNumber);
+    return;
+  }
 
   // count down
   useEffect(() => {
@@ -138,7 +143,11 @@ const GameScreen = ({ phone, chosenNumber, onRestart }) => {
                 keyboardType="numeric"
                 placeholder="Enter a number"
                 />
-                <CustomButton title="Submit Guess" onPress={handleGuess} />
+                <View style={{flexDirection:'column', alignItems:'center', padding:10}}>
+                    <CustomButton title="hint" onPress={handleHint} />
+                    <View style={{margin:10}}></View>
+                    <CustomButton title="Submit Guess" onPress={handleGuess} />
+                </View>
             </Card>
         </View>
       )}
